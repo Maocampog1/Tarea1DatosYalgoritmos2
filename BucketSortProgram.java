@@ -2,22 +2,39 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class BubbleSortProgram {
+public class BucketSortProgram {
 
-    // Método para realizar Bubble Sort
-    public static void bubbleSort(String[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (arr[j].compareTo(arr[j + 1]) > 0) {
-                    // Intercambiar arr[j] y arr[j+1]
-                    String temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
+    // Método para realizar Bucket Sort
+    public static void bucketSort(String[] arr) {
+        if (arr.length == 0) {
+            return;
+        }
+        
+        // Determinar el número de buckets
+        int numberOfBuckets = (int) Math.sqrt(arr.length);
+        List<List<String>> buckets = new ArrayList<>(numberOfBuckets);
+        
+        // Inicializar los buckets
+        for (int i = 0; i < numberOfBuckets; i++) {
+            buckets.add(new ArrayList<>());
+        }
+
+        // Distribuir las palabras en los buckets
+        for (String word : arr) {
+            int bucketIndex = (word.hashCode() & 0x7fffffff) % numberOfBuckets;
+            buckets.get(bucketIndex).add(word);
+        }
+
+        // Ordenar individualmente cada bucket y concatenar los resultados
+        int index = 0;
+        for (List<String> bucket : buckets) {
+            Collections.sort(bucket);
+            for (String word : bucket) {
+                arr[index++] = word;
             }
         }
     }
@@ -57,13 +74,13 @@ public class BubbleSortProgram {
             
             String[] dataSet = words.subList(0, sizes[i]).toArray(new String[0]);
             long startTime = System.currentTimeMillis();
-            bubbleSort(dataSet);
+            bucketSort(dataSet);
             long endTime = System.currentTimeMillis();
             times[i] = endTime - startTime;
         }
         
         // Imprimir la tabla de resultados
-        System.out.println("Número de datos | Tiempo Sort Burbuja (ms)");
+        System.out.println("Número de datos | Tiempo Bucket Sort (ms)");
         System.out.println("-----------------------------------------");
         for (int i = 0; i < sizes.length; i++) {
             if (totalWords < sizes[i]) {
@@ -75,6 +92,3 @@ public class BubbleSortProgram {
         scanner.close();
     }
 }
-
-
-

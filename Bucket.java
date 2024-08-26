@@ -2,22 +2,39 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class BubbleSortProgram {
+public class Bucket {
+    
+    // Método para realizar Bucket Sort
+    public static void bucketSort(String[] arr) {
+        if (arr.length == 0) {
+            return;
+        }
+        
+        // Determinar el número de buckets
+        int numberOfBuckets = (int) Math.sqrt(arr.length);
+        List<List<String>> buckets = new ArrayList<>(numberOfBuckets);
+        
+        // Inicializar los buckets
+        for (int i = 0; i < numberOfBuckets; i++) {
+            buckets.add(new ArrayList<>());
+        }
 
-    // Método para realizar Bubble Sort
-    public static void bubbleSort(String[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (arr[j].compareTo(arr[j + 1]) > 0) {
-                    // Intercambiar arr[j] y arr[j+1]
-                    String temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
+        // Distribuir las palabras en los buckets
+        for (String word : arr) {
+            int bucketIndex = (word.hashCode() & 0x7fffffff) % numberOfBuckets;
+            buckets.get(bucketIndex).add(word);
+        }
+
+        // Ordenar individualmente cada bucket y concatenar los resultados
+        int index = 0;
+        for (List<String> bucket : buckets) {
+            Collections.sort(bucket);
+            for (String word : bucket) {
+                arr[index++] = word;
             }
         }
     }
@@ -39,9 +56,6 @@ public class BubbleSortProgram {
             return;
         }
 
-        int totalWords = words.size();
-        System.out.println("Total de palabras en el archivo: " + totalWords);
-
         // Arreglos para almacenar los tamaños y tiempos
         int[] sizes = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000,
                        110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000,
@@ -50,31 +64,20 @@ public class BubbleSortProgram {
         
         // Realizar el ordenamiento y medir el tiempo
         for (int i = 0; i < sizes.length; i++) {
-            if (totalWords < sizes[i]) {
-                System.out.println("El archivo contiene solo " + totalWords + " palabras, no hay suficientes palabras para " + sizes[i] + " palabras.");
-                break;
-            }
-            
             String[] dataSet = words.subList(0, sizes[i]).toArray(new String[0]);
             long startTime = System.currentTimeMillis();
-            bubbleSort(dataSet);
+            bucketSort(dataSet);
             long endTime = System.currentTimeMillis();
             times[i] = endTime - startTime;
         }
         
         // Imprimir la tabla de resultados
-        System.out.println("Número de datos | Tiempo Sort Burbuja (ms)");
+        System.out.println("Número de datos | Tiempo Bucket Sort (ms)");
         System.out.println("-----------------------------------------");
         for (int i = 0; i < sizes.length; i++) {
-            if (totalWords < sizes[i]) {
-                break;
-            }
             System.out.printf("%-15d | %-15d\n", sizes[i], times[i]);
         }
         
         scanner.close();
     }
 }
-
-
-
