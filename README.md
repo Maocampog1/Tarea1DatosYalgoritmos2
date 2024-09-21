@@ -29,6 +29,7 @@ En mi computadora personal, que se utilizó para la configuración y monitoreo d
 
 ## Links para la Tarea:
 
-- **Video:** [https://youtu.be/NJZeqAw6Wkw?si=lV6MXuSb6RGs17zA](#)
-- **Documento:** [https://heyzine.com/flip-book/c84ae8ce01.html#page/6](#)
+- **Video:** [https://youtu.be/NJZeqAw6Wkw?si=lV6MXuSb6RGs17zA](https://youtu.be/NJZeqAw6Wkw?si=lV6MXuSb6RGs17zA)
+- **Documento:** [https://heyzine.com/flip-book/c84ae8ce01.html#page/6](https://heyzine.com/flip-book/c84ae8ce01.html#page/6)
+
 
