@@ -1,4 +1,3 @@
-Aquí tienes una redacción basada en la imagen que proporcionaste, con el lenguaje ajustado a Java:
 
 # Tarea 1 (Datos y Algoritmos 2)
 
